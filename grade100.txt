@@ -1,0 +1,106 @@
+daniel@DESKTOP-PRGFOMP:/mnt/c/CppFiles/orgchart-a$ bash grade
+--- 0 seconds
+
+
+### Cleaning old files ###
+rm -f objects/OrgChart.o *.o test* demo*
+rm -f StudentTest*.cpp
+
+
+### Check 1: our demo program should compile with your class
+! timeout 20 make -j8 -f Makefile demo
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources --compile Demo.cpp -o Demo.o
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources --compile sources/OrgChart.cpp -o objects/OrgChart.o
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources Demo.o objects/OrgChart.o -o demo
+--- 0 seconds
+### Score 1: 100
+
+
+### Check 2: our demo program should run without errors
+! timeout 20 ./demo
+
+--- 0 seconds
+### Score 2: 100
+
+
+### Check 3: your test should compile 
+! timeout 20 make -j8 -f Makefile test
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources --compile TestCounter.cpp -o TestCounter.o
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources --compile Test.cpp -o Test.o
+clang++-9  -std=c++2a -Werror -Wsign-conversion -Isources TestCounter.o Test.o objects/OrgChart.o -o test
+--- 2 seconds
+### Score 3: 100
+
+
+### Check 4: you should write some new tests
+! timeout 20 ./test
+[doctest] doctest version is "2.3.7"
+[doctest] run with "--help" for options
+===============================================================================
+Test.cpp:11:
+TEST CASE:  check iterators
+
+Test.cpp:23: ERROR: CHECK( *it1=="1" ) is NOT correct!
+  values: CHECK( hey == 1 )
+
+Test.cpp:25: ERROR: CHECK( *it1=="2.1" ) is NOT correct!
+  values: CHECK( hey == 2.1 )
+
+Test.cpp:27: ERROR: CHECK( *it1=="2.2" ) is NOT correct!
+  values: CHECK( hey == 2.2 )
+
+Test.cpp:29: ERROR: CHECK( *it1=="3.1" ) is NOT correct!
+  values: CHECK( hey == 3.1 )
+
+Test.cpp:32: ERROR: CHECK( it1==organization.end_level_order() ) is NOT correct!
+  values: CHECK( {?} == {?} )
+
+Test.cpp:35: ERROR: CHECK( *it2=="3.1" ) is NOT correct!
+  values: CHECK( hey == 3.1 )
+
+Test.cpp:37: ERROR: CHECK( *it2=="2.2" ) is NOT correct!
+  values: CHECK( hey == 2.2 )
+
+Test.cpp:39: ERROR: CHECK( *it2=="2.1" ) is NOT correct!
+  values: CHECK( hey == 2.1 )
+
+Test.cpp:41: ERROR: CHECK( *it2=="1" ) is NOT correct!
+  values: CHECK( hey == 1 )
+
+Test.cpp:44: ERROR: CHECK( it2==organization.reverse_order() ) is NOT correct!
+  values: CHECK( {?} == {?} )
+
+Test.cpp:47: ERROR: CHECK( *it3=="1" ) is NOT correct!
+  values: CHECK( hey == 1 )
+
+Test.cpp:49: ERROR: CHECK( *it3=="2.1" ) is NOT correct!
+  values: CHECK( hey == 2.1 )
+
+Test.cpp:51: ERROR: CHECK( *it3=="3.1" ) is NOT correct!
+  values: CHECK( hey == 3.1 )
+
+Test.cpp:53: ERROR: CHECK( *it3=="2.2" ) is NOT correct!
+  values: CHECK( hey == 2.2 )
+
+Test.cpp:56: ERROR: CHECK( it3==organization.end_preorder() ) is NOT correct!
+  values: CHECK( {?} == {?} )
+
+===============================================================================
+Test.cpp:60:
+TEST CASE:  check throws
+
+Test.cpp:64: ERROR: CHECK_THROWS( organization.add_sub("no root","not add") ) did NOT throw at all!
+
+Test.cpp:65: ERROR: CHECK_THROWS( organization.add_sub("not add","hghk") ) did NOT throw at all!
+
+Test.cpp:71: ERROR: CHECK_THROWS( organization.add_sub("no such name","cant add") ) did NOT throw at all!
+
+Test.cpp:72: ERROR: CHECK_THROWS( organization.add_sub("no such name2","cant add") ) did NOT throw at all!
+
+--- 2 seconds
+### Score 4: 100
+
+
+Grade: 100
+
+daniel@DESKTOP-PRGFOMP:/mnt/c/CppFiles/orgchart-a$ 
